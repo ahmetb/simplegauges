@@ -4,7 +4,7 @@ import gauges
 from datastores import azuretable
 
 
-default_datastore = None
-
-def get_daily_gauge(name, datastore=None):
-    return gauges.DailyGauge(name, datastore)
+def daily_gauge_factory(datastore):
+    def get_gauge_handle(name):
+        return gauges.DailyGauge(name, datastore)
+    return get_gauge_handle
