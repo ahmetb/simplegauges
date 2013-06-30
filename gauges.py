@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from dateutil import parser
-
+from helpers import make_record
 
 class BaseGauge(object):
     pass
@@ -41,7 +41,7 @@ class DailyGauge(BaseGauge):
             return [self.make_daily_record(r) for r in records]
 
     def aggregate(self, data_since_day, data_before_day=None, aggregator=None,
-                  take_last=0, post_processor=None):
+                  take_last=0, post_processors=[]):
         data = self.__get_data(data_since_day, data_before_day)
 
         if take_last < 0:
@@ -53,8 +53,9 @@ class DailyGauge(BaseGauge):
         if aggregator:
             data = aggregator(data)
 
-        if post_processor:
-            data = post_processor(data)
+        if post_processors:
+            for processor in post_processors:
+                data = processor(data)
 
         return data[-take_last:]
 
@@ -62,5 +63,6 @@ class DailyGauge(BaseGauge):
     def make_daily_record(record):
         """None if data does not exist
         """
+
         day = parser.parse(record['key']).date()
-        return {'key': day, 'data': record['data']}
+        return make_record(day, record['data'])

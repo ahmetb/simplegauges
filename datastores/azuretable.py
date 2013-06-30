@@ -56,8 +56,6 @@ class AzureGaugeDatastore(GaugeDatastore):
         if max_date_key:
             query = "{0} and RowKey lt '{1}'".format(query, max_date_key)
 
-        print query
-
         rows = self.table_service.query_entities(self.table_name, filter=query)
         if rows:
             return [make_record(record.RowKey, record.data) for record in rows]
