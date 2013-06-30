@@ -8,11 +8,15 @@ class GaugeDatastore(object):
         """
         pass
 
-    def get_gauge_data(self, gauge_name, min_date_key=None):
+    def get_gauge_data(self, gauge_name, min_date_key=None, max_date_key=None):
         """Retrieves all gauge data, returns sorted.
 
-        If min_date_key is specified, returns records after specified date key.
-        min_date_key: str
+        If min_date_key (str) is specified, returns records after specified
+        date key (incl. min_date_key).
+
+        If max_date_key (str) is specified, returns records before specified
+        date key (excl. max_date_key).
+        
 
         Return format: [ {"key": date_key, "data": data}, ... ]
         For missing data, data field will be returned as None.

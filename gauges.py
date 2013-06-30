@@ -31,15 +31,18 @@ class DailyGauge(BaseGauge):
         if record:
             return self.make_daily_record(record)
 
-    def __get_all_since(self, since_day):
+    def __get_data(self, since_day, before_day=None):
+
         lower_limit_day = str(since_day)
-        records = self.datastore.get_gauge_data(self.name, lower_limit_day)
+        upper_limit_day = str(before_day) if before_day else before_day
+        records = self.datastore.get_gauge_data(self.name, lower_limit_day,
+                                                upper_limit_day)
         if records:
             return [self.make_daily_record(r) for r in records]
 
-    def aggregate(self, data_since_day, aggregator=None, take_last=0,
-                  post_processor=None):
-        data = self.__get_all_since(data_since_day)
+    def aggregate(self, data_since_day, data_before_day=None, aggregator=None,
+                  take_last=0, post_processor=None):
+        data = self.__get_data(data_since_day, data_before_day)
 
         if take_last < 0:
             raise Exception('take_last argument cannot be negative')

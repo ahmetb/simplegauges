@@ -33,11 +33,14 @@ class AzureGaugeDatastore(GaugeDatastore):
                                                     gauge_name, date_key,
                                                     entity)
 
-    def get_gauge_data(self, gauge_name, min_date_key=None):
+    def get_gauge_data(self, gauge_name, min_date_key=None, max_date_key=None):
         """Retrieves all gauge data, returns unsorted.
 
         If min_date_key is specified, returns records with
         date_key >= min_date_key
+
+        If max_date_key is specified, returns records with
+        date_key < max_date_key
 
         IMPORTANT NOTE: Azure Table REST API returns first (oldest) 1000 rows
         in API call. Unless we add RowKey>min_date_key filter, after 1000
@@ -49,6 +52,9 @@ class AzureGaugeDatastore(GaugeDatastore):
 
         if min_date_key:
             query = "{0} and RowKey ge '{1}'".format(query, min_date_key)
+
+        if max_date_key:
+            query = "{0} and RowKey lt '{1}'".format(query, max_date_key)
 
         print query
 
