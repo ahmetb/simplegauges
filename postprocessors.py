@@ -8,17 +8,17 @@ def day_fill(data, fill_value=None):
     """Given a data set with missing day values sorted by day, adds records
     with value of `fill_value`
     """
-    return generic_date_fill(1, data, fill_value)
+    return generic_day_fill(1, data, fill_value)
 
 
 def week_fill(data, fill_value=None):
     """Given a sorted data set with missing week keys, adds records with
     value of `fill_value`
     """
-    return generic_date_fill(7, data, fill_value)
+    return generic_day_fill(7, data, fill_value)
 
 
-def generic_date_fill(day_interval, data, fill_value=None):
+def generic_day_fill(day_interval, data, fill_value=None):
     new_data = list()
     prev = None
     for dt in data:

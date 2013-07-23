@@ -16,7 +16,6 @@ class GaugeDatastore(object):
 
         If max_date_key (str) is specified, returns records before specified
         date key (excl. max_date_key).
-        
 
         Return format: [ {"key": date_key, "data": data}, ... ]
         For missing data, data field will be returned as None.
